@@ -40,8 +40,6 @@ RUN apt-get update &&\
 RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
 RUN apt-get install -y nodejs
 
-WORKDIR /src
-
 # Install essential Python packages
 # TODO: consider reducing non-essential common dependencies (e.g. jupyterlab)
 RUN python3 -m pip --no-cache-dir install \
@@ -66,22 +64,11 @@ RUN python3 -m pip --no-cache-dir install git+https://github.com/spapa013/datajo
 # Add profiling library support
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:${LD_LIBRARY_PATH}
 
-WORKDIR /src
-
-RUN pip3 install git+https://github.com/cajal/microns-utils.git
-
-RUN git clone https://github.com/cajal/microns-nda.git && \
-    pip3 install /src/microns-nda/python/microns-nda-api
-
-RUN git clone https://github.com/cajal/microns-materialization.git && \
-    pip3 install /src/microns-materialization/python/microns-materialization-api
-
-RUN git clone https://github.com/cajal/microns-morphology.git && \
-    pip3 install /src/microns-morphology/python/microns-morphology-api
-
-RUN git clone https://github.com/cajal/microns-coregistration.git && \
-    pip3 install /src/microns-coregistration/python/microns-coregistration-api
-
-RUN git clone https://github.com/cajal/microns-manual-proofreading.git && \
-    pip3 install /src/microns-manual-proofreading/python/microns-manual-proofreading-api
-
+# Install MICrONS packages
+RUN pip3 install \
+    git+https://github.com/cajal/microns-utils.git \
+    git+https://github.com/cajal/microns-nda.git#subdirectory=python/microns-nda-api \
+    git+https://github.com/cajal/microns-materialization.git#subdirectory=python/microns-materialization-api \
+    git+https://github.com/cajal/microns-morphology.git#subdirectory=python/microns-morphology-api \
+    git+https://github.com/cajal/microns-coregistration.git#subdirectory=python/microns-coregistration-api \
+    git+https://github.com/cajal/microns-manual-proofreading.git#subdirectory=python/microns-manual-proofreading-api
