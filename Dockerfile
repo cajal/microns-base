@@ -40,8 +40,6 @@ RUN apt-get update &&\
 RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
 RUN apt-get install -y nodejs
 
-WORKDIR /src
-
 # Install essential Python packages
 # TODO: consider reducing non-essential common dependencies (e.g. jupyterlab)
 RUN python3 -m pip --no-cache-dir install \
@@ -66,22 +64,27 @@ RUN python3 -m pip --no-cache-dir install git+https://github.com/spapa013/datajo
 # Add profiling library support
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:${LD_LIBRARY_PATH}
 
-WORKDIR /src
+# Install Cajal packages from latest tag
+ADD "https://api.github.com/repos/cajal/microns-utils/tags?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-utils/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip3 install git+https://github.com/cajal/microns-utils.git@$TAG
 
-RUN pip3 install git+https://github.com/cajal/microns-utils.git
+ADD "https://api.github.com/repos/cajal/microns-nda/tags?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-nda/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip3 install git+https://github.com/cajal/microns-nda.git@$TAG#subdirectory=python/microns-nda-api
 
-RUN git clone https://github.com/cajal/microns-nda.git && \
-    pip3 install /src/microns-nda/python/microns-nda-api
+ADD "https://api.github.com/repos/cajal/microns-materialization/tags?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-materialization/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip3 install git+https://github.com/cajal/microns-materialization.git@$TAG#subdirectory=python/microns-materialization-api
 
-RUN git clone https://github.com/cajal/microns-materialization.git && \
-    pip3 install /src/microns-materialization/python/microns-materialization-api
+ADD "https://api.github.com/repos/cajal/microns-morphology/tags?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-morphology/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip3 install git+https://github.com/cajal/microns-morphology.git@$TAG#subdirectory=python/microns-morphology-api
 
-RUN git clone https://github.com/cajal/microns-morphology.git && \
-    pip3 install /src/microns-morphology/python/microns-morphology-api
+ADD "https://api.github.com/repos/cajal/microns-coregistration/tags?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-coregistration/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip3 install git+https://github.com/cajal/microns-coregistration.git@$TAG#subdirectory=python/microns-coregistration-api
 
-RUN git clone https://github.com/cajal/microns-coregistration.git && \
-    pip3 install /src/microns-coregistration/python/microns-coregistration-api
-
-RUN git clone https://github.com/cajal/microns-manual-proofreading.git && \
-    pip3 install /src/microns-manual-proofreading/python/microns-manual-proofreading-api
-
+ADD "https://api.github.com/repos/cajal/microns-manual-proofreading/tags?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-manual-proofreading/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip3 install git+https://github.com/cajal/microns-manual-proofreading.git@$TAG#subdirectory=python/microns-manual-proofreading-api
