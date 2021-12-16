@@ -57,7 +57,9 @@ RUN python3 -m pip --no-cache-dir install \
          seaborn \
          graphviz \
          h5py \
-         simplejson
+         simplejson \
+         networkx[default] \
+         pylint
 
 RUN python3 -m pip --no-cache-dir install git+https://github.com/spapa013/datajoint-python.git
 
