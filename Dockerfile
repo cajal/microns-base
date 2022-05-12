@@ -59,7 +59,8 @@ RUN python3 -m pip --no-cache-dir install \
          h5py \
          simplejson \
          networkx[default] \
-         pylint
+         pylint \
+         meshparty
 
 # Install DataJoint with datajoint_plus
 ADD "https://api.github.com/repos/cajal/datajoint-plus/releases?per_page=1" latest
