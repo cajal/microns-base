@@ -26,7 +26,8 @@ RUN apt-get update &&\
                        python3.8 \
                        python3.8-dev \
                        python3.8-distutils \
-                       swig &&\
+                       swig \
+                       fish &&\
     apt-get clean &&\
     ln -s /usr/bin/python3.8 /usr/local/bin/python &&\
     ln -s /usr/bin/python3.8 /usr/local/bin/python3 &&\
@@ -71,8 +72,7 @@ ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:${LD_LIBRARY_PATH}
 
 # Install Cajal packages from latest tag
 ADD "https://api.github.com/repos/cajal/microns-utils/releases?per_page=1" latest
-RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-utils/releases?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
-    pip3 install git+https://github.com/cajal/microns-utils.git@$TAG
+RUN pip3 install microns-utils
 
 ADD "https://api.github.com/repos/cajal/microns-nda/releases?per_page=1" latest
 RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-nda/releases?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
