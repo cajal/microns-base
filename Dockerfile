@@ -6,6 +6,12 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install essential Ubuntu packages
 # and upgrade pip
+
+# added to overcome known issue with nvidia image 
+# per https://github.com/NVIDIA/nvidia-docker/issues/1632#issuecomment-1112667716
+RUN rm /etc/apt/sources.list.d/cuda.list 
+RUN rm /etc/apt/sources.list.d/nvidia-ml.list
+
 RUN apt-get update &&\
     apt-get install -y software-properties-common \
                        build-essential \
