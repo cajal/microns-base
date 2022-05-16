@@ -26,7 +26,8 @@ RUN apt-get update &&\
                        python3.8 \
                        python3.8-dev \
                        python3.8-distutils \
-                       swig &&\
+                       swig \
+                       fish &&\
     apt-get clean &&\
     ln -s /usr/bin/python3.8 /usr/local/bin/python &&\
     ln -s /usr/bin/python3.8 /usr/local/bin/python3 &&\
