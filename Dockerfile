@@ -9,6 +9,10 @@ RUN pip --no-cache-dir install meshparty
 ADD "https://api.github.com/repos/cajal/datajoint-plus/releases?per_page=1" latest
 RUN pip install datajoint-plus
 
+# Install wridgets
+ADD "https://api.github.com/repos/spapa013/wridgets/releases?per_page=1" latest
+RUN pip install wridgets
+
 # Install Cajal packages from latest tag
 ADD "https://api.github.com/repos/cajal/microns-utils/releases?per_page=1" latest
 RUN pip install microns-utils
@@ -32,3 +36,7 @@ RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-coregistrat
 ADD "https://api.github.com/repos/cajal/microns-manual-proofreading/releases?per_page=1" latest
 RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-manual-proofreading/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
     pip install git+https://github.com/cajal/microns-manual-proofreading.git@$TAG#subdirectory=python/microns-manual-proofreading-api
+
+ADD "https://api.github.com/repos/cajal/microns-dashboard/releases?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-dashboard/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip install git+https://github.com/cajal/microns-dashboard.git@$TAG
