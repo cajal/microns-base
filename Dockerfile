@@ -40,3 +40,7 @@ RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-manual-proo
 ADD "https://api.github.com/repos/cajal/microns-dashboard/releases?per_page=1" latest
 RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-dashboard/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
     pip install git+https://github.com/cajal/microns-dashboard.git@$TAG
+
+ADD "https://api.github.com/repos/cajal/microns-proximities/releases?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-proximities/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip install git+https://github.com/cajal/microns-proximities.git@$TAG#subdirectory=python/microns-proximities-api
