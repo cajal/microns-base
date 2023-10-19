@@ -1,4 +1,4 @@
-FROM at-docker:5000/datascience-notebook:cuda11.4.0-python3.8
+FROM at-docker:5000/datascience-notebook:cuda11.8.0-python3.8
 
 USER root
 
