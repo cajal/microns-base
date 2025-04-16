@@ -1,4 +1,4 @@
-FROM registry.atlab.stanford.edu:5000/datascience-notebook:ubuntu20.04-cuda11.8.0-python3.8
+FROM at-docker:5000/datascience-notebook:cuda11.8.0-python3.8
 
 # Install Python packages that were not available on conda
 RUN pip --no-cache-dir install meshparty
