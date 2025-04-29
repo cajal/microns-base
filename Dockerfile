@@ -1,4 +1,6 @@
-FROM at-docker:5000/datascience-notebook:cuda11.8.0-python3.8
+FROM registry.atlab.stanford.edu:5000/datascience-notebook:ubuntu20.04-cuda11.8.0-python3.8
+
+RUN pip install --upgrade pip setuptools
 
 # Install Python packages that were not available on conda
 RUN pip --no-cache-dir install meshparty
@@ -11,9 +13,12 @@ RUN pip install datajoint-plus
 ADD "https://api.github.com/repos/spapa013/wridgets/releases?per_page=1" latest
 RUN pip install wridgets
 
+# Make constraints file available
+COPY constraints.txt /tmp/constraints.txt
+
 # Install Cajal packages from latest tag
 ADD "https://api.github.com/repos/cajal/microns-utils/releases?per_page=1" latest
-RUN pip install microns-utils
+RUN pip install -c /tmp/constraints.txt microns-utils
 
 ADD "https://api.github.com/repos/cajal/microns-nda/releases?per_page=1" latest
 RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-nda/releases?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
